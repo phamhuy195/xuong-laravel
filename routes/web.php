@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\TestController;
+use App\Http\Middleware\TestMiddleware;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CategoryController;
-use \App\Http\Controllers\BrandController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,6 +21,29 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('categories', CategoryController::class);
-Route::resource('brands', BrandController::class);
 
+
+//Auth::routes();
+Route::get('/admin',function (){
+   return "Đây là Admin" ;
+})
+//    ->middleware(CheckAdminMiddleware::class);
+// Đặt ngắn gọn hơn => Kernel => $middlewareAliases
+    ->middleware('isAdmin');
+
+
+Route::get('test',[TestController::class,'test'])
+    ->middleware(TestMiddleware::class);
+
+Route::get('auth/login',[LoginController::class,'showFormLogin'])->name('login');
+Route::post('auth/login',[LoginController::class,'login']);
+Route::post('auth/logout',[LoginController::class,'logout'])->name('logout');
+
+Route::get('auth/register',[RegisterController::class,'showFormRegister'])->name('register');;
+Route::post('auth/register',[RegisterController::class,'register']);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/',function (){
+   return view('welcome');
+});
