@@ -21,8 +21,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-
 //Auth::routes();
 Route::get('/admin',function (){
    return "Đây là Admin" ;
@@ -47,3 +45,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/',function (){
    return view('welcome');
 });
+
+
+// Tạo file admin.php mới => Http/Providers/RouteServiceProvider
+
+//                          Route::middleware('web')
+//                          ->group(base_path('routes/admin.php'));
+
